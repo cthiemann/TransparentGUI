@@ -1,0 +1,8 @@
+This is the TransparentGUI library for Processing.
+
+To compile, type make on the Terminal.
+
+Be sure to adjust the paths at the top of the Makefile.
+
+Copy into the code folder inside the SPaTo_Visual_Explorer sketch
+to use the freshly compiled version in the application.
