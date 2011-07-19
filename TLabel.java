@@ -25,7 +25,7 @@ import processing.core.PGraphics;
 
 public class TLabel extends TComponent {
   protected String text = null;
-  
+
   public static final int ALIGN_LEFT = PApplet.LEFT;
   public static final int ALIGN_CENTER = PApplet.CENTER;
   public static final int ALIGN_RIGHT = PApplet.RIGHT;
@@ -33,20 +33,20 @@ public class TLabel extends TComponent {
   public static final int VALIGN_CENTER = PApplet.CENTER;
   public static final int VALIGN_BOTTOM = PApplet.BOTTOM;
   protected int align = ALIGN_LEFT, valign = VALIGN_CENTER;
-  
+
   public TLabel(TransparentGUI gui) { this(gui, ""); }
   public TLabel(TransparentGUI gui, String s) {
     super(gui); setText(s); setFocusable(false); capturesMouse = false; }
-  
+
   public String getText() { return text; }
   public void setText(String s) { text = s; invalidate(); }
-  
+
   public int getAlignment() { return align; }
   public void setAlignment(int align) { this.align = align; }
   public void setAlignment(int align, int valign) { this.align = align; setVerticalAlignment(valign); }
   public int getVerticalAlignment() { return valign; }
   public void setVerticalAlignment(int valign) { this.valign = valign; }
-  
+
   public TComponent.Dimension getMinimumSize() {
     float maxWidth = 0;
     gui.app.g.textFont(getFont());
@@ -57,7 +57,7 @@ public class TLabel extends TComponent {
     height = height + (lines.length - 1)*gui.app.g.textLeading;
     return new TComponent.Dimension(maxWidth, height);
   }
-  
+
   public void draw(PGraphics g) {
     super.draw(g);
     g.noStroke();

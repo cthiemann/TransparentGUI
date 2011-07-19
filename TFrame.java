@@ -25,7 +25,7 @@ import java.awt.event.MouseEvent;
 public class TFrame extends TWindow {
   TLabel lblTitle;
   TPanel contentPane;
-  
+
   public TFrame(TransparentGUI gui) { this(gui, null, new TBorderLayout()); }
   public TFrame(TransparentGUI gui, TLayoutManager layout) { this(gui, null, layout); }
   public TFrame(TransparentGUI gui, String title) { this(gui, title, new TBorderLayout()); }
@@ -37,19 +37,19 @@ public class TFrame extends TWindow {
     setFocusable(true);
     setTitle(title);
   }
-  
+
   public TPanel getContentPane() { return contentPane; }
-  
+
   public String getTitle() { return lblTitle.isVisible() ? lblTitle.getText() : null; }
   public void setTitle(String title) {
     lblTitle.setText((title != null) ? title : "");
     lblTitle.setVisible(title != null);
   }
-  
+
   public void add(TComponent comp, Object hint, int index) { contentPane.add(comp, hint, index); }
   public void remove(int index) { contentPane.remove(index); }
   public void remove(TComponent comp) { contentPane.remove(comp); }
-  
+
   public void handleMouseEvent(MouseEvent e) {
     super.handleMouseEvent(e);
     if (e.getID() == MouseEvent.MOUSE_PRESSED)

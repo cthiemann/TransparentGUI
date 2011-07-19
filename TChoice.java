@@ -69,9 +69,9 @@ public class TChoice extends TComponent {
       g.text(getString(o, inMenu), x, y);
     }
   }
-  
+
   protected class Menu extends TWindow {
-    
+
     protected class Item extends TComponent {
       protected Object o;
       protected TComponent.Rectangle obounds;
@@ -88,7 +88,7 @@ public class TChoice extends TComponent {
       public void handleMouseClicked() { Menu.this.handleMouseClickOn(this); }
       public void draw(PGraphics g) { super.draw(g); renderer.draw(TChoice.this, g, o, obounds, true); }
     }
-    
+
     protected class NullItem extends Item {
       public NullItem(TransparentGUI gui) { super(gui, strNone); renderer = new StringRenderer(); }
       public void draw(PGraphics p) {
@@ -98,7 +98,7 @@ public class TChoice extends TComponent {
         TChoice.this.setForegroundColor(c);
       }
     }
-    
+
     Menu(TransparentGUI gui) { super(gui); fragile = true; }
     public void validate() {
       if (valid) return;
@@ -125,7 +125,7 @@ public class TChoice extends TComponent {
       gui.remove(this);
     }
   }
-  
+
   public TChoice(TransparentGUI gui) { this(gui, ""); }
   public TChoice(TransparentGUI gui, String actionCmdPrefix) {
     super(gui);
@@ -134,35 +134,35 @@ public class TChoice extends TComponent {
     setRenderer(new StringRenderer());
     clickable = true;
   }
-  
+
   public String getActionCommandPrefix() { return actionCmdPrefix; }
   public void setActionCommandPrefix(String s) { actionCmdPrefix = s; }
-  
+
   public boolean isCompact() { return compact; }
   public void setCompact(boolean b) { if (compact != b) { compact = b; invalidate(); } }
-  
+
   public Renderer getRenderer() { return renderer; }
   public void setRenderer(Renderer r) { renderer = r; }
-  
+
   public String getEmptyString() { return strEmpty; }
   public void setEmptyString(String str) { this.strEmpty = str; }
-  
+
   public String getNoSelectionString() { return strNoSelection; }
   public void setNoSelectionString(String str) { this.strNoSelection = str; }
-  
+
   public String getNoneString() { return strNone; }
   public void setNoneString(String str) { this.strNone = str; }
-  
+
   public boolean allowsNone() { return allowNone; }
   public void setAllowNone(boolean b) { allowNone = b; }
-  
+
   public int getItemCount() { return items.size(); }
   public Object getItem(int index) { return items.get(index); }
-  
+
   public void add(Object[] items) { if (items != null) for (int i = 0; i < items.length; i++) add(items[i]); }
   public void add(Object item) { items.add(item); invalidate(); }
   public void insert(Object item, int index) { items.add(index, item); invalidate(); }
-  
+
   public void remove(Object item) { remove(items.indexOf(item)); }
   public void remove(int index) {
     if (selected == index) selected = Math.max(0, selected - 1);
@@ -171,10 +171,10 @@ public class TChoice extends TComponent {
     invalidate();
   }
   public void removeAll() { items.clear(); selected = -1; invalidate(); }
-  
+
   public Object getSelectedItem() { return (selected != -1) ? items.get(selected) : null; }
   public int getSelectedIndex() { return selected; }
-  
+
   public boolean select(Object item) { return select(items.indexOf(item)); }
   public boolean select(int index) {
     if (selected == index) return false;
@@ -190,7 +190,7 @@ public class TChoice extends TComponent {
       bgAlpha = 1.f;  // give visual feedback of the action
     }
   }
-  
+
   public Dimension getMinimumSize() {
     TComponent.Dimension d = (selected > -1)
       ? renderer.getPreferredSize(this, items.get(selected), false) : new TComponent.Dimension(0, 0);
@@ -206,18 +206,18 @@ public class TChoice extends TComponent {
     }
     return d;
   }
-  
+
   public void validate() { super.validate(); obounds = getBounds();
     obounds.x += padding.left; obounds.y += padding.top;
     obounds.width -= padding.left + padding.right; obounds.height -= padding.top + padding.bottom; }
   public void invalidate() { super.invalidate(); gui.remove(menu); menu.invalidate(); }
   public void invalidateMenu() { menu.invalidate(); }
-  
+
   public void setHotKeyChar(char c) { gui.unregisterFromKeyEvents(this); hotKeyCharCycle = c;
     if ((hotKeyCharCycle > 0) || (hotKeyCharItems != null)) gui.registerForKeyEvents(this); }
   public void setShortcutChars(char[] c) { gui.unregisterFromKeyEvents(this); hotKeyCharItems = c;
     if ((hotKeyCharCycle > 0) || (hotKeyCharItems != null)) gui.registerForKeyEvents(this); }
-  
+
   public void handleKeyEvent(KeyEvent e) {
     super.handleKeyEvent(e);
     if (e.isConsumed() || (e.getID() != KeyEvent.KEY_PRESSED)) return;
@@ -228,9 +228,9 @@ public class TChoice extends TComponent {
         if (e.getKeyChar() == hotKeyCharItems[i])
           selectAndNotify(i);
   }
-  
+
   public void handleMouseClicked() { if (!items.isEmpty()) gui.add(menu); }
-  
+
   public void draw(PGraphics g) {
     super.draw(g);
     if (selected > -1)

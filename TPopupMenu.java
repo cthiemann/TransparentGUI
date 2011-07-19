@@ -22,12 +22,12 @@ package tGUI;
 import processing.core.PGraphics;
 
 public class TPopupMenu extends TWindow {
-  
+
   public class Item extends TButton {
     public Item(TransparentGUI gui, String text) { super(gui, text); setMargin(0); setAlignment(ALIGN_LEFT); }
     public void handleMouseClicked() { super.handleMouseClicked(); TPopupMenu.this.handleMouseClickOn(this); }
   }
-  
+
   protected class Separator extends Item {
     public Separator(TransparentGUI gui, String text) { super(gui, text); setEnabled(false); setAlignment(ALIGN_CENTER); }
     public Separator(TransparentGUI gui) { this(gui, ""); }
@@ -59,23 +59,23 @@ public class TPopupMenu extends TWindow {
       }
     }
   }
-  
+
   TPopupMenu(TransparentGUI gui) {
     super(gui); fragile = true;
     setPadding(5, 1);
     setBorder(2); setBorderColor(new java.awt.Color(200, 0, 0, 200));
   }
-  
+
   public void add(Item item) { super.add(item, TBorderLayout.NORTH); }
   public void add(String text) { add(text, text); }
-  public void add(String text, String actionCommand) { 
+  public void add(String text, String actionCommand) {
     Item item = new Item(gui, text);
     item.setActionCommand(actionCommand);
     add(item);
   }
   public void addSeparator() { addSeparator(""); }
   public void addSeparator(String text) { add(new Separator(gui, text)); }
-  
+
   public Item getItem(String actionCommand) {
     if (actionCommand == null) return null;
     for (int i = 0; i < components.size(); i++)
@@ -83,12 +83,12 @@ public class TPopupMenu extends TWindow {
         return (Item)components.get(i);
     return null;
   }
-  
+
   public void setEnabled(String actionCommand, boolean b) {
     Item item = getItem(actionCommand);
     if (item != null) item.setEnabled(b);
   }
-  
+
   public void show(TComponent origin, int x, int y) {
     setSize(getPreferredSize());
     validate();
@@ -98,9 +98,9 @@ public class TPopupMenu extends TWindow {
     setLocation(p);
     gui.add(this);
   }
-  
+
   public void handleMouseClickOn(Item item) {
     gui.remove(this);
   }
-  
+
 }

@@ -36,10 +36,10 @@ public class TButton extends TLabel {
   public TButton(TransparentGUI gui) { this(gui, ""); }
   public TButton(TransparentGUI gui, String s) {
     super(gui, s); clickable = capturesMouse = true; setFocusable(true); setAlignment(ALIGN_CENTER); }
-  
+
   public String getActionCommand() { return (command != null) ? command : text; }
   public void setActionCommand(String s) { command = s; }
-  
+
   public void setHotKey(int c) { setHotKey(c, 0); }
   public void setHotKey(int c, int mods) {
     gui.unregisterFromKeyEvents(this);
@@ -47,7 +47,7 @@ public class TButton extends TLabel {
     hotKeyMods = mods;
     if (c > 0) gui.registerForKeyEvents(this);
   }
-  
+
   public void handleKeyEvent(KeyEvent e) {
     super.handleKeyEvent(e);
     if (e.isConsumed() || (e.getID() != KeyEvent.KEY_PRESSED)) return;
@@ -56,7 +56,7 @@ public class TButton extends TLabel {
       e.consume();
     }
   }
-  
+
   public void handleMouseClicked() {
     gui.fireActionEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, getActionCommand()));
     bgAlpha = 1.0f;  // give instant visual feedback (also when the hot key was hit)

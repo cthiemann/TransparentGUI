@@ -27,7 +27,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class TComponent extends Object {
-  
+
   public static class Point {
     public float x, y;
     public Point() { this(0, 0); }
@@ -35,7 +35,7 @@ public class TComponent extends Object {
     public Point(float x, float y) { this.x = x; this.y = y; }
     public String toString() { return getClass().getName() + "[x=" + x + ",y=" + y + "]"; };
   }
-  
+
   public static class Dimension {
     public float width, height;
     public Dimension() { this(0, 0); }
@@ -43,7 +43,7 @@ public class TComponent extends Object {
     public Dimension(float w, float h) { width = w; height = h; }
     public String toString() { return getClass().getName() + "[width=" + width + ",height=" + height + "]"; };
   }
-  
+
   public static class Rectangle {
     public float x, y, width, height;
     public Rectangle() { this(0, 0, 0, 0); }
@@ -54,7 +54,7 @@ public class TComponent extends Object {
              (y >= this.y) && (y <= this.y + height); }
    public String toString() { return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]"; };
   }
-  
+
   public static class Spacing {
     public float top, right, bottom, left;
     public Spacing() { this(0, 0, 0, 0); }
@@ -66,7 +66,7 @@ public class TComponent extends Object {
     public float get() { return ((top == right) && (top == bottom) && (top == left)) ? top : -1; }
     public String toString() { return getClass().getName() + "[top=" + top + ",right=" + right + ",bottom=" + bottom + ",right=" + right + "]"; };
   }
-  
+
   public static class BorderRadius {
     public float topleft, topright, bottomright, bottomleft;
     public BorderRadius() { this(0, 0, 0, 0); }
@@ -76,11 +76,11 @@ public class TComponent extends Object {
     public float get() { return ((topleft == topright) && (topleft == bottomright) && (topleft == bottomleft)) ? topleft : -1; }
     public String toString() { return getClass().getName() + "[topleft=" + topleft + ",topright=" + topright + ",bottomright=" + bottomright + ",bottomleft=" + bottomleft + "]"; };
   }
-  
+
   protected final static int MOUSE_NONE = 0;
   protected final static int MOUSE_OVER = 1;
   protected final static int MOUSE_DOWN = 2;
-  
+
   protected TransparentGUI gui = null;
   protected TContainer parent = null;
   protected boolean valid = false;
@@ -99,24 +99,24 @@ public class TComponent extends Object {
   protected Color fg = null;
   protected Color bg = null;
   protected Color borderColor = null;
-  
+
   protected int mouseState = MOUSE_NONE;
   protected boolean capturesMouse = true;
   protected boolean clickable = false;
   protected float bgAlpha = 0.f, bgAlpha_target = 0.f;
-  
+
   protected TPopupMenu pmContextMenu = null;
   protected Object actionEventHandler = null;
   protected Method actionEventMethod = null;
-  
+
   protected TToolTip tooltip = null;
-  
+
   public TComponent(TransparentGUI gui) { this.gui = gui; }
   public TransparentGUI getGUI() { return gui; }
   public TContainer getParent() { return parent; }
   public Object getLayoutHint() { return hint; }
   public void setLayoutHint(Object o) { hint = o; invalidate(); }
-  
+
   public boolean isValid() { return valid; }
   public boolean isVisible() { return visible; }
   public boolean isShowing() { return isVisible() && (parent != null) && parent.isShowing(); }
@@ -127,13 +127,13 @@ public class TComponent extends Object {
   public void setVisible(boolean b) { if (visible != b) { visible = b; if (parent != null) parent.invalidate(); } }
   public void setVisibleAndEnabled(boolean b) { setVisible(b); setEnabled(b); }
   public void setFocusable(boolean b) { focusable = b; }
-  
+
   public void requestFocus() { gui.requestFocus(this); }
   public void handleFocusGained() {}
   public void handleFocusLost() {}
   public void transferFocus() { if (parent != null) gui.requestFocus(parent.getFocusableComponentAfter(this)); }
   public void transferFocusBackward() { if (parent != null) gui.requestFocus(parent.getFocusableComponentBefore(this)); }
-  
+
   public Color getForegroundColor() {
     Color c =  (fg != null) ? new Color(fg.getRGB(), true)
                             : new Color(gui.style.getForegroundColor(this).getRGB(), true);
@@ -153,11 +153,11 @@ public class TComponent extends Object {
   public int getBackground() { Color c = getBackgroundColor(); return (c != null) ? c.getRGB() : 0; }
   public void setBackground(int c) { bg = new Color(c, true); }
   public boolean isBackgroundSet() { return bg != null; }
-  
+
   public PFont getFont() { return (fn != null) ? fn : gui.style.getFont(this); }
   public void setFont(PFont f) { fn = f; invalidate(); }
   public boolean isFontSet() { return fn != null; }
-  
+
   public Point getLocation() {
     return new Point(bounds.x, bounds.y);
   }
@@ -167,13 +167,13 @@ public class TComponent extends Object {
   }
   public void setLocation(float x, float y) { bounds.x = x; bounds.y = y; }
   public void setLocation(Point p) { setLocation(p.x, p.y); }
-  
+
   public Dimension getSize() {
     return new Dimension(bounds.width, bounds.height);
   }
   public void setSize(float w, float h) { bounds.width = w; bounds.height = h; }
   public void setSize(Dimension d) { bounds.width = d.width; bounds.height = d.height; }
-  
+
   public Rectangle getBounds() { return new Rectangle(bounds); }
   public void setBounds(float x, float y, float w, float h) { bounds.x = x; bounds.y = y; bounds.width = w; bounds.height = h; }
   public void setBounds(Rectangle r) { bounds = new Rectangle(r); }
@@ -192,7 +192,7 @@ public class TComponent extends Object {
   public float getMarginRight() { return margin.right; }
   public float getMarginBottom() { return margin.bottom; }
   public float getMarginLeft() { return margin.left; }
-  
+
   public Spacing getPadding() { return new Spacing(padding); }
   public void setPadding(float t, float r, float b, float l) { padding.top = t; padding.right = r; padding.bottom = b; padding.left = l; invalidate(); }
   public void setPadding(float t, float rl, float b) { padding.top = t; padding.right = padding.left = rl; padding.bottom = b; invalidate(); }
@@ -214,7 +214,7 @@ public class TComponent extends Object {
   public float getBorderRight() { return border.right; }
   public float getBorderBottom() { return border.bottom; }
   public float getBorderLeft() { return border.left; }
-  
+
   public BorderRadius getBorderRadius() { return new BorderRadius(borderRadius); }
   public void setBorderRadius(float tl, float tr, float br, float bl) { borderRadius.topleft = tl; borderRadius.topright = tr; borderRadius.bottomright = br; borderRadius.bottomleft = bl; }
   public void setBorderRadius(float r) { borderRadius.topleft = borderRadius.topright = borderRadius.bottomright = borderRadius.bottomleft = r; }
@@ -235,7 +235,7 @@ public class TComponent extends Object {
   public int getBorderColor() { Color c = getBorderColorObj(); return (c != null) ? c.getRGB() : 0; }
   public void setBorderColor(int c) { borderColor = new Color(c, true); }
   public boolean isBorderColorSet() { return borderColor != null; }
-  
+
   public Dimension getPreferredSize() {
     Dimension d = getMinimumSize();
     d.width += padding.left + padding.right;
@@ -244,10 +244,10 @@ public class TComponent extends Object {
   }
   public Dimension getMinimumSize() { return new Dimension(0, 0); }
   public Dimension getMaximumSize() { return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE); }
-  
+
   public TPopupMenu getContextMenu() { return pmContextMenu; }
   public void setContextMenu(TPopupMenu menu) { pmContextMenu = menu; }
-  
+
   public Object getActionEventHandler() { return actionEventHandler; }
   public Method getActionEventMethod() { return actionEventMethod; }
   public void setActionEventHandler(Object o, Method m) {
@@ -256,11 +256,11 @@ public class TComponent extends Object {
     try { setActionEventHandler(o, o.getClass().getMethod(name, new Class[] { String.class })); }
     catch (Exception e) { /* silently ignore this... */ } }
   public void setActionEventHandler(Object o) { if (o != null) setActionEventHandler(o, "actionPerformed"); }
-  
+
   public TToolTip getToolTip() { return tooltip; }
   public void setToolTip(TToolTip tooltip) { this.tooltip = tooltip; }
   public void setToolTip(String str) { setToolTip(new TToolTip(this, str)); }
-  
+
   public void doLayout() {}
   public void validate() {
     doLayout();  // in TContainer, this will trigger the actual layout algorithm
@@ -271,12 +271,12 @@ public class TComponent extends Object {
     if (tooltip != null) tooltip.invalidate();  // tooltip position might have to be updated
     if (parent != null) parent.invalidate();  // the container this component is in will have to redo its layout
   }
-  
+
   public boolean contains(float x, float y) { return bounds.contains(x, y); }
   public boolean contains(Point p) { return contains(p.x, p.y); }
   public TComponent getComponentAt(float x, float y) { return contains(x, y) && visible ? this : null; }
   public TComponent getComponentAt(Point p) { return getComponentAt(p.x, p.y); }
-  
+
   public void handleKeyEvent(KeyEvent e) {
     if (!isFocusOwner()) return;
     if ((e.getKeyCode() == KeyEvent.VK_TAB) || (e.getKeyChar() == '\t')) {
@@ -287,7 +287,7 @@ public class TComponent extends Object {
       e.consume();
     }
   }
-  
+
   public void handleMouseEvent(MouseEvent e) {
     if ((pmContextMenu != null) && e.isPopupTrigger())
       pmContextMenu.show(gui, gui.app.mouseX, gui.app.mouseY);
@@ -338,7 +338,7 @@ public class TComponent extends Object {
     g.bezierVertex(bounds.x, bounds.y + rndctrlTL, bounds.x + rndctrlTL, bounds.y, bounds.x + rndTL, bounds.y);
     g.endShape();
   }
-  
+
   protected void drawBackground(PGraphics g) {
     if ((bounds.width == 0) || (bounds.height == 0)) return;  // nothing to draw here
     Color bg = getBackgroundColor();
@@ -355,7 +355,7 @@ public class TComponent extends Object {
     } else
       drawRoundRectangle(g);
   }
-  
+
   protected void drawBorder(PGraphics g) {
     if ((bounds.width == 0) || (bounds.height == 0)) return;  // nothing to draw here
     Color bc = getBorderColorObj();
@@ -383,7 +383,7 @@ public class TComponent extends Object {
     }
     g.strokeWeight(1);  // restore stroke weight to standard value
   }
-  
+
   protected void drawLayout(PGraphics g) {
     // for layout debugging...
     g.stroke(gui.app.color(0));
@@ -395,7 +395,7 @@ public class TComponent extends Object {
     g.fill(gui.app.color(0, 255, 0, 100));
     g.rect(bounds.x + padding.left, bounds.y + padding.top, bounds.width -padding.left - padding.right, bounds.height - padding.top - padding.bottom);
   }
-  
+
   public void draw(PGraphics g) {
     if (!valid) validate();
     drawBackground(g);

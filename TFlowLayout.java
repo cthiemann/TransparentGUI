@@ -26,10 +26,10 @@ public class TFlowLayout extends Object implements TLayoutManager {
   public static final int ALIGN_CENTER = PApplet.CENTER;
   public static final int ALIGN_RIGHT = PApplet.RIGHT;
   public int align = ALIGN_LEFT; // FIXME: implement alignment in layoutContainer
-  
+
   public TFlowLayout() {}
   public TFlowLayout(int align) { this.align = align; }
-  
+
   public TComponent.Dimension preferredLayoutSize(TContainer target) {
     float width = 0, height = 0, spacing = target.getPaddingLeft();
     TComponent[] components = target.getComponents();

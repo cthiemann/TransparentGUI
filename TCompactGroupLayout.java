@@ -23,12 +23,12 @@ import processing.core.PApplet;
 
 public class TCompactGroupLayout extends Object implements TLayoutManager {
   public static final String STRETCH = "Stretch";  // components with this hint may be enlarged to fit an oversized compact group
-  
+
   public float addPadding = 0;
-  
+
   public TCompactGroupLayout() { this(0); }
   public TCompactGroupLayout(float addPadding) { this.addPadding = addPadding; }
-  
+
   protected void styleComponents(TContainer target) {
     // do not call setMargin, setPadding etc here, because they will re-invalidate its component's layout
     float r = 8;
@@ -53,7 +53,7 @@ public class TCompactGroupLayout extends Object implements TLayoutManager {
     last.borderRadius.bottomright = r;
     target.borderRadius = new TComponent.BorderRadius(5);
   }
-  
+
   public TComponent.Dimension preferredLayoutSize(TContainer target) {
     return minimumLayoutSize(target);
   }

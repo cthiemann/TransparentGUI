@@ -25,14 +25,14 @@ import java.util.Vector;
 public class TContainer extends TComponent {
   protected Vector<TComponent> components = new Vector<TComponent>();
   protected TLayoutManager layout = null;
-  
+
   public TContainer(TransparentGUI gui) {
     super(gui);
     setMargin(0);
     setPadding(0);
     capturesMouse = false;
   }
-  
+
   public int getComponentCount() { return components.size(); }
   public TComponent getComponent(int i) { return components.get(i); }
   public TComponent[] getComponents() {
@@ -41,7 +41,7 @@ public class TContainer extends TComponent {
       comps[i] = components.get(i);
     return comps;
   }
-  
+
   public void add(TComponent comp) { add(comp, null, -1); }
   public void add(TComponent comp, Object hint) { add(comp, hint, -1); }
   public void add(TComponent comp, int index) { add(comp, null, index); }
@@ -60,7 +60,7 @@ public class TContainer extends TComponent {
     comp.hint = null;
   }
   public void removeAll() { while (components.size() > 0) remove(0); }
-  
+
   public TLayoutManager getLayout() { return layout; }
   public void setLayout(TLayoutManager layout) { this.layout = layout; invalidate(); }
   public void doLayout() { if (layout != null) layout.layoutContainer(this); }
@@ -80,14 +80,14 @@ public class TContainer extends TComponent {
       else
         components.get(i).invalidate();
   }
-  
+
   public TComponent.Dimension getPreferredSize() {
     return (layout != null) ? layout.preferredLayoutSize(this) : super.getPreferredSize(); }
   public TComponent.Dimension getMinimumSize() {
     return (layout != null) ? layout.minimumLayoutSize(this) : super.getMinimumSize(); }
   public TComponent.Dimension getMaximumSize() {
     return (layout != null) ? layout.maximumLayoutSize(this) : super.getMaximumSize(); }
-  
+
   public TComponent getComponentAt(float x, float y) {
     // query child components, front-most (last added) child first
     for (int i = components.size() - 1; i >= 0; i--) {
@@ -99,7 +99,7 @@ public class TContainer extends TComponent {
     // return this if contains(x, y), null otherwise
     return super.getComponentAt(x, y);
   }
-  
+
   public void transferFocus() { gui.requestFocus(getFocusableComponentAfter(this)); }
   public void transferFocusBackward() { gui.requestFocus(getFocusableComponentBefore(this)); }
 
@@ -118,7 +118,7 @@ public class TContainer extends TComponent {
       return parent.getFocusableComponentAfter(this);
     return null;
   }
-  
+
   TComponent getFocusableComponentBefore(TComponent comp) {
     int index = components.indexOf(comp);
     for (int i = index - 1; i >= 0; i--) {
@@ -136,7 +136,7 @@ public class TContainer extends TComponent {
       return parent.getFocusableComponentBefore(this);
     return null;
   }
-  
+
   TComponent getFirstFocusableComponent() {
     if (isShowing() && isEnabled() && isFocusable())
       return this;
@@ -149,7 +149,7 @@ public class TContainer extends TComponent {
     }
     return null;
   }
-  
+
   TComponent getLastFocusableComponent() {
     for (int i = components.size() - 1; i >= 0; i--) {
       TComponent c = components.get(i);
@@ -162,9 +162,9 @@ public class TContainer extends TComponent {
       return this;
     return null;
   }
-  
+
   TComponent getDefaultFocusableComponent() { return getFirstFocusableComponent(); }
-  
+
   public void draw(PGraphics g) {
     if (!valid) validate();
     drawBackground(g);

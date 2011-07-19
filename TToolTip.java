@@ -23,11 +23,11 @@ import java.security.MessageDigest;
 import processing.core.PApplet;
 
 public class TToolTip extends TWindow {
-  
+
   protected TComponent comp = null;  // anchor for this tooltip
   protected String id = null;  // ID for storing preferences
   protected String hashID = "null";  // ID that is used when no ID is explicitly set
-  
+
   public static final int BELOW = 0;  // tooltip will hang under its anchor component
   public static final int ABOVE = 1;  // tooltip will sit on top of its anchor component
   public static final int LEFT = 2;  // tooltip will hang on the left side of its anchor component
@@ -36,11 +36,11 @@ public class TToolTip extends TWindow {
   public static final int LEFT_OR_RIGHT = 5;  // tooltip will be left or right of anchor, depending on available space
   public static final int DEFAULT = 6;  // tooltip will be placed depending on anchor component type
   protected int preferredLocation = DEFAULT;
-  
+
   protected float tfuse = 0;  // time since the mouse entered anchor component
   protected float t1 = Float.NaN;  // time (in seconds) until tooltip will be shown
   protected long tlast = -1;  // last time the tooltip was shown (Unix timestamp)
-  
+
   public TToolTip(TComponent comp) { this(comp, new TBorderLayout()); }
   public TToolTip(TComponent comp, String str) { this(comp); setText(str); }
   public TToolTip(TComponent comp, TLayoutManager layout) {
@@ -52,11 +52,11 @@ public class TToolTip extends TWindow {
     setBackgroundColor(new java.awt.Color(225, 225, 175, 225));
     setMargin(5);  // distance to anchor component
   }
-  
+
   public String getID() { return id; }
   public void setID(String id) { this.id = id; }
   protected String getPrefID() { return (id != null) ? id : hashID; }
-  
+
   public void setText(String str) {
     removeAll();
     add(gui.createLabel(str));
@@ -70,12 +70,12 @@ public class TToolTip extends TWindow {
     }
     t1 = Float.NaN; tlast = -1;
   }
-  
+
   public void setToolTip(TToolTip tt) { throw new RuntimeException("ha ha, very funny..."); }
-  
+
   public int getPreferredLocation() { return preferredLocation; }
   public void setPreferredLocation(int location) { preferredLocation = location; }
-  
+
   public void validate() {
     if (valid) return;
     // at this point, we can be sure that the anchor component is already correctly positioned
@@ -108,9 +108,9 @@ public class TToolTip extends TWindow {
     invalidateAll(); // force re-layouting the tooltip window
     super.validate();  // TWindow.validate() -> TContainer.doLayout()
   }
-  
+
   private boolean show = false;
-  
+
   public void update() {
     t1 = 0;//FIXME temp//if (Float.isNaN(t1)) t1 = gui.prefs.getFloat(getPrefID() + ".delay", 0);
     //if (tlast == -1) tlast = gui.prefs.getLong(getPrefID() + ".last", )  // FIXME
@@ -131,5 +131,5 @@ public class TToolTip extends TWindow {
     if (show)
       gui.showToolTip(this);
   }
-  
+
 }

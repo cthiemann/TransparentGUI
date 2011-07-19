@@ -25,7 +25,7 @@ import java.awt.event.MouseEvent;
 public class TWindow extends TContainer {
   protected boolean fragile = false;  // if this is true, the window will be removed from the rootContainer if a mouse click occured that did not hit this window
   protected boolean movable = false;
-  
+
   protected TWindow() { super(null); }  // this constructor is only for use by TransparentGUI
   public TWindow(TransparentGUI gui) { this(gui, new TBorderLayout()); }
   public TWindow(TransparentGUI gui, TLayoutManager layout) {
@@ -36,13 +36,13 @@ public class TWindow extends TContainer {
     setFocusable(false);
     capturesMouse = true;
   }
-  
+
   public boolean isFocused() { return gui.getFocusedWindow() == this; }
   public boolean isActive() { return gui.getActiveWindow() == this; }
-  
+
   public boolean isFragile() { return fragile; }
   public void setFragile(boolean b) { fragile = b; }
-  
+
   public boolean isMovable() { return movable; }
   public void setMovable(boolean b) { movable = b; }
 

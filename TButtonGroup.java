@@ -23,14 +23,14 @@ import java.util.Vector;
 
 public class TButtonGroup extends Object {
   protected TToggleButton selected = null;
-  
+
   public TButtonGroup() { this(null); }
   public TButtonGroup(TToggleButton[] buttons) {
     if (buttons != null)
       for (int i = 0; i < buttons.length; i++)
         buttons[i].setButtonGroup(this);
   }
-  
+
   public TToggleButton getSelected() { return selected; }
   public void setSelected(TToggleButton b) {
     if ((selected == b) || (b.group != this)) return;

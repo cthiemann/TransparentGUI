@@ -29,19 +29,19 @@ public class TCheckBox extends TToggleButton {
   public TCheckBox(TransparentGUI gui, String s) { this(gui, s, null); }
   public TCheckBox(TransparentGUI gui, String s, TButtonGroup g) {
     super(gui, s, g); setAlignment(ALIGN_LEFT); }
-  
+
   public TComponent.Dimension getPreferredSize() {
     TComponent.Dimension d = super.getPreferredSize();
     d.width += gui.app.g.textDescent()/2 + 5 + gui.app.g.textAscent() - 15;
     return d;
   }
-  
+
   public TComponent.Dimension getMinimumSize() {
     TComponent.Dimension d = super.getMinimumSize();
     d.width += gui.app.g.textDescent()/2 + 5 + gui.app.g.textAscent();
     return d;
   }
-  
+
   public Color getForegroundColor() { return gui.style.getForegroundColor(this); }  // FIXME
 
   // FIXME: this needs to be reworked

@@ -29,13 +29,13 @@ public class TSlider extends TComponent {
   protected float prefWidth = 0;
   protected float knobSize = 8;
   protected String command = null;
-  
+
   public TSlider(TransparentGUI gui) { this(gui, null); }
   public TSlider(TransparentGUI gui, String cmd) { super(gui); clickable = true; setActionCommand(cmd); }
-  
+
   public String getActionCommand() { return (command != null) ? command : "TSlider"; }
   public void setActionCommand(String s) { command = s; }
-  
+
   public int getValue() { return value; }
   public void setValue(int value) { this.value = value; }
   public int getMinValue() { return min; }
@@ -43,12 +43,12 @@ public class TSlider extends TComponent {
   public int getMaxValue() { return max; }
   public void setMaxValue(int max) { this.max = max; }
   public void setValueBounds(int min, int max) { this.min = min; this.max = max; }
-  
+
   public float getPreferredWidth() { return prefWidth; }
   public void setPreferredWidth(float width) { prefWidth = width; invalidate(); }
-  
+
   public TComponent.Dimension getMinimumSize() { return new TComponent.Dimension(prefWidth + knobSize, knobSize); }
-  
+
   public void handleMouseEvent(MouseEvent e) {
     super.handleMouseEvent(e);
     if (gui.componentMouseClicked == this) {
@@ -60,7 +60,7 @@ public class TSlider extends TComponent {
         gui.fireActionEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, getActionCommand() + "##valueChanged"));
     }
   }
-  
+
   public void draw(PGraphics g) {
     super.draw(g);
     g.pushStyle();

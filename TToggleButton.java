@@ -27,18 +27,18 @@ import java.awt.event.MouseEvent;
 public class TToggleButton extends TButton {
   protected boolean selected = false;
   protected TButtonGroup group = null;
-  
+
   public TToggleButton(TransparentGUI gui) { this(gui, "", null); }
   public TToggleButton(TransparentGUI gui, String s) { this(gui, s, null); }
   public TToggleButton(TransparentGUI gui, String s, TButtonGroup g) { super(gui, s); setButtonGroup(g); }
-  
+
   public boolean isSelected() { return selected; }
   public void setSelected(boolean b) { selected = b; }
-  
+
   public TButtonGroup getButtonGroup() { return group; }
   public void setButtonGroup(TButtonGroup g) { group = g;
     if ((group != null) && (group.getSelected() == null)) group.setSelected(this); }
-  
+
   public void handleKeyEvent(KeyEvent e) {
     if ((group == null) || (group.getSelected() != this))
       super.handleKeyEvent(e);  // only look at the event if it has a chance to do anything
@@ -53,6 +53,6 @@ public class TToggleButton extends TButton {
       super.handleMouseClicked();
     }
   }
-  
+
   public Color getForegroundColor() { return gui.style.getForegroundColor(this, selected); }  // FIXME
 }

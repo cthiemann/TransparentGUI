@@ -27,7 +27,7 @@ import java.util.Vector;
 import java.util.Stack;
 
 public class TConsole extends TComponent {
-  
+
   protected String tag = null;  // if non-null, this is prefixed to every message on standard output
   protected boolean showDebug = true;
   protected boolean persistent = false;  // if true, messages don't fade away
@@ -37,14 +37,14 @@ public class TConsole extends TComponent {
   protected PFont fnNorm;
   protected PFont fnBold;
   protected PImage imgProgBar;
-  
+
   public static final int ALIGN_LEFT = PApplet.LEFT;
   public static final int ALIGN_CENTER = PApplet.CENTER;
   public static final int ALIGN_RIGHT = PApplet.RIGHT;
   protected int align = ALIGN_RIGHT;
-  
+
   public static final int BUFFER_SIZE = 5000;  // number of messages to keep
-    
+
   public static final int MSG_ERROR = 1;
   public static final int MSG_WARNING = 2;
   public static final int MSG_INFO = 3;
@@ -62,7 +62,7 @@ public class TConsole extends TComponent {
     public int t1 = -1;  // time of finishing progress; -1 = unfinished; -2 = aborted
     public int tE = Integer.MAX_VALUE;  // time of exit, i.e. when this message will start fading out
     public float y = Float.NaN, a = Float.NaN;  // last drawn y position on screen and alpha value
-    
+
     public Message(int type, String text) { this(type, text, false); }
     public Message(int type, String text, boolean prog) {
       this.type = type; this.text = ("" + text).replace('\n', ' ');  // if text is null, this will yield "null"
@@ -72,7 +72,7 @@ public class TConsole extends TComponent {
     public Message sticky() { TConsole.this.pushSticky(this); setSticky(true); return this; }  // for console.logXXX(...).sticky()
     public void revoke() { setRevoked(true); }
     public Message indeterminate() { updateProgress(0.5f); return this; }
-    
+
     public boolean hasProgress() { return (type & MSG_PROGRESS) > 0; }
     public boolean hasActiveProgress() { return hasProgress() && (t1 == -1); }
     public void updateProgress(float p) { updateProgress(p, 1); }
@@ -89,7 +89,7 @@ public class TConsole extends TComponent {
       if (!hasActiveProgress()) return;
       progress = 1; t1 = -2; text += " aborted"; setExitTime(gui.app.millis());
       TConsole.this.handleAbortProgress(this); }
-      
+
     public boolean isSticky() { return (type & MSG_STICKY) > 0; }
     public void setSticky(boolean sticky) {
       if (isSticky() && !sticky) {
@@ -104,12 +104,12 @@ public class TConsole extends TComponent {
         type = type | MSG_STICKY;
       }
     }
-    
+
     public boolean isRevoked() { return (type & MSG_REVOKED) > 0; }
     public void setRevoked(boolean revoked) {
       if (revoked) type = type | MSG_REVOKED;
       else type = type & ~MSG_REVOKED; }
-    
+
     protected void setExitTime(int tRef) {
       tE = 1500;
       if (hasProgress())
@@ -120,7 +120,7 @@ public class TConsole extends TComponent {
       if ((type & 0xff) <= MSG_ERROR) tE *= 1.1;
       tE = tRef + tE;
     }
-    
+
     public String toString() {
       String res = (TConsole.this.tag != null) ? "[" + TConsole.this.tag + "] " : "";
       if (hasProgress()) {
@@ -140,11 +140,11 @@ public class TConsole extends TComponent {
       return res;
     }
   }
-  
+
   Vector<Message> msgs = new Vector<Message>();
   Stack<Message> stickyMsgs = new Stack<Message>();
   Message msgprog = null;  // most recent message with progress bar
-  
+
   public TConsole(TransparentGUI gui) { this(gui, null, false); }
   public TConsole(TransparentGUI gui, String tag) { this(gui, tag, false); }
   public TConsole(TransparentGUI gui, boolean showDebug) { this(gui, null, showDebug); }
@@ -157,21 +157,21 @@ public class TConsole extends TComponent {
     setFontSize(fnsize);
     setPadding(10);
   }
-  
+
   public String getTag() { return tag; }
   public void setTag(String tag) { this.tag = tag; }
-  
+
   public boolean showsDebug() { return showDebug; }
   public void setShowDebug(boolean b) { showDebug = b; }
-  
+
   public boolean isPersistent() { return persistent; }
   public void setPersistent(boolean b) { persistent = b; }
   public boolean isFancy() { return fancy; }
   public void setFancy(boolean b) { fancy = b; persistent = !b; }
-  
+
   public int getAlignment() { return align; }
   public void setAlignment(int align) { this.align = align; }
-  
+
   public float getFontSize() { return fnsize; }
   public void setFontSize(float fnsize) {
     this.fnsize = fnsize;
@@ -180,15 +180,15 @@ public class TConsole extends TComponent {
     progbarheight = Math.round(.6f*fnsize);
     imgProgBar = gui.app.createImage(progbarwidth, progbarheight, PApplet.ARGB);
   }
-  
+
   public void pushSticky(Message msg) { stickyMsgs.push(msg); msg.setSticky(true); }
   public Message popSticky() { Message msg = stickyMsgs.pop(); msg.setSticky(false); return msg; }
-  
+
   public void clear() { msgs.clear(); if (!fancy) invalidate(); }
-  
+
   public TComponent.Dimension getMinimumSize() {
     return new TComponent.Dimension(100, fancy ? 100 : msgs.isEmpty() ? 0 : fnsize + 1.25f*fnsize*(msgs.size() - 1)); }
-  
+
   protected String minsec(int millis) {
     if (millis < 100)
       return "less than 0.1 seconds";
@@ -203,7 +203,7 @@ public class TConsole extends TComponent {
          + ((mins > 0) ? mins + " minute" + ((mins == 1) ? "" : "s") + " " : "")
          + ((secs > 0) ? secs + " second" + ((secs == 1) ? "" : "s") + "" : "");
   }
-  
+
   protected Message log(Message msg) {
     if (msgprog != null) { gui.app.println(" [...]"); msgprog = null; }  // clean-up unfinished progress logging
     String msgstr = msg.toString() + "\n";
@@ -214,7 +214,7 @@ public class TConsole extends TComponent {
     if (msgs.size() > BUFFER_SIZE) msgs.remove(0);
     return msg;
   }
-  
+
   public Message logError(String txt) { return log(new Message(MSG_ERROR, txt)); }
   public Message logError(String txt, Throwable e) { return logError(txt + prettyThrow(e)); }
   public Message logError(Throwable e) { return logError(prettyThrow(e, true)); }
@@ -243,7 +243,7 @@ public class TConsole extends TComponent {
     if (msg != msgprog) return;  // not our business anymore
     if ((int)(10*msgprog.progress) != (int)(10*lastProgress))
       gui.app.print(" " + (int)(100*msgprog.progress) + "%");
-  }  
+  }
   protected void handleFinishProgress(Message msg) {
     if (msg != msgprog) return;  // not our business anymore
     gui.app.println(" -- " + minsec(msgprog.t1 - msgprog.t0));
@@ -254,7 +254,7 @@ public class TConsole extends TComponent {
     gui.app.println(" -- aborted");
     msgprog = null;
   }
-  
+
   public Message getLastMessage() { return (msgs.size() > 0) ? msgs.lastElement() : null; }
 
   public static String prettyThrow(Throwable t) { return prettyThrow(t, false); }
@@ -273,7 +273,7 @@ public class TConsole extends TComponent {
     if (firstCapital) name = name.substring(0, 1).toUpperCase() + ((name.length() > 1) ? name.substring(1) : "");
     return name + ": " + t.getMessage();
   }
-  
+
   protected float drawMessage(PGraphics g, Message msg, float x, float y) {
     if (Float.isNaN(msg.y*msg.a)) { msg.y = y; msg.a = 33/255.f; }  // initial message position is at target position
     float ta = (((gui.app.millis() > msg.tE) || msg.isRevoked()) && !persistent) ? 0 : 1;
@@ -329,7 +329,7 @@ public class TConsole extends TComponent {
     }
     return 255*msg.a;
   }
-  
+
   private boolean showMillis = false;
   private int tLast = 0;
 
@@ -372,7 +372,7 @@ public class TConsole extends TComponent {
       tLast = t;
     }
   }
-  
+
   public String toString() {
     String res = "";
     for (Message msg : msgs)

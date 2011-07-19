@@ -33,7 +33,7 @@ import java.awt.event.MouseEvent;
 public class TransparentGUI extends TWindow {
   protected PApplet app = null;
   protected Preferences prefs = null;
-  
+
   public TComponent componentAtMouse = null;  // the component currently under mouse cursor
   protected boolean componentAtMouseValid = false;
   public TComponent componentMouseClicked = null;  // between MOUSE_PRESSED and MOUSE_RELEASED, this is the component which was under the mouse cursor at MOUSE_PRESSED
@@ -41,12 +41,12 @@ public class TransparentGUI extends TWindow {
   protected Vector<TComponent> keyEventComponents = new Vector<TComponent>();
   public ActionEvent actionEvent = null;  // the current action event when any component calls its action event (simplified) listeners
   public TToolTip visibleToolTip = null;  // currently visible tooltip, if any (null otherwise)
-  
+
   public float t = -1, tt = -1, dt = -1;  // for animation purposes
-  
+
   public TContainer rootContainer;
   public Style style;
-  
+
   public class Style {
     TransparentGUI gui;
     PFont fnNorm, fnBold;
@@ -54,7 +54,7 @@ public class TransparentGUI extends TWindow {
     Color cFgToggleOff;  // color for deselected toggle buttons
     Color cBgWindow, cBgCompactGroup;  // colors for top level containers and compact groups
     Color cBgMainWinComponent, cBdMainWinComponent;  // colors for components that are direct children of TransparentGUI
-    
+
     public Style(TransparentGUI gui) {
       this.gui = gui;
       fnNorm = createFont("GillSans", 12);
@@ -68,12 +68,12 @@ public class TransparentGUI extends TWindow {
       cBgWindow = new Color(200, 200, 200, 225);
       cBgCompactGroup = new Color(225, 225, 225, 225);
     }
-    
+
     public PFont getFont() { return fnNorm; }
     public PFont getFont(boolean bold) { return bold ? fnBold : fnNorm; }
     public PFont getFont(TComponent comp) { return fnNorm; }
     public PFont getFont(TComponent comp, boolean bold) { return bold ? fnBold : fnNorm; }
-    
+
     public Color getForegroundColor(TComponent comp) { return cFgDefault; }
     public Color getForegroundColor(TToggleButton comp, boolean selected) { return selected ? cFgDefault : cFgToggleOff; }
     public Color getBackgroundColor(TComponent comp) {
@@ -88,7 +88,7 @@ public class TransparentGUI extends TWindow {
       return cBdDefault;
     }
   }
-  
+
   public TransparentGUI(PApplet app) {
     this.gui = this;
     this.app = app;
@@ -103,7 +103,7 @@ public class TransparentGUI extends TWindow {
     //app.registerSize(this);  // FIXME: this seems not to work in the current version of Processing (file bug report)
     app.addComponentListener(new java.awt.event.ComponentAdapter() {
       public void componentResized(java.awt.event.ComponentEvent e) {
-        size(e.getComponent().getWidth(), e.getComponent().getHeight()); } }); 
+        size(e.getComponent().getWidth(), e.getComponent().getHeight()); } });
     app.registerDispose(this);
     setLayout(new TBorderLayout());
     rootContainer = new TContainer(this) {
@@ -116,7 +116,7 @@ public class TransparentGUI extends TWindow {
     this.setBackground(0);
     this.setBounds(0, 0, app.width, app.height);
   }
-  
+
   public TPanel createPanel() { return new TPanel(this); }
   public TPanel createPanel(TLayoutManager layout) { return new TPanel(this, layout); }
   public TPanel createPanel(TComponent[] components) { return createPanel(components, new TFlowLayout()); }
@@ -137,7 +137,7 @@ public class TransparentGUI extends TWindow {
     panel.setMargin(margin); panel.capturesMouse = true;
     return panel;
   }
-  
+
   public TLabel createLabel(String text) { return new TLabel(this, text); }
   public TButton createButton(String text) { return new TButton(this, text); }
   public TToggleButton createToggleButton(String text) { return new TToggleButton(this, text); }
@@ -156,7 +156,7 @@ public class TransparentGUI extends TWindow {
   public TConsole createConsole() { return new TConsole(this); }
   public TConsole createConsole(String tag) { return new TConsole(this, tag); }
   public TConsole createConsole(boolean debug) { return new TConsole(this, debug); }
-  
+
   public TPopupMenu createPopupMenu() { return new TPopupMenu(this); }
   public TPopupMenu createPopupMenu(String[] items) {
     TPopupMenu pm = createPopupMenu();
@@ -178,7 +178,7 @@ public class TransparentGUI extends TWindow {
           pm.addSeparator((items[i] != null) ? items[i][0] : "");
     return pm;
   }
-  
+
   /** Tries to create a font.  If Processing's createFont fails,
    * it searches for a TTF resource and uses that. If that fails as well,
    * the substitute font by PApplet.createFont() is returned. */
@@ -199,7 +199,7 @@ public class TransparentGUI extends TWindow {
     // return whatever we got (worst case, this is the default substitute font returned by createFont())
     return font;
   }
-  
+
   public void fireActionEvent(ActionEvent event) {
     actionEvent = event;
     // call first event handler we encounter while traversing up the component hierarchy
@@ -209,7 +209,7 @@ public class TransparentGUI extends TWindow {
         try { comp.actionEventMethod.invoke(comp.actionEventHandler, new Object[] { event.getActionCommand() }); return; }
         catch (Exception e) { e.printStackTrace(); }
   }
-  
+
   public void add(TWindow win) { add(win, -1); }
   public void add(TWindow win, int index) { rootContainer.add(win, null, index); componentAtMouseValid = false; }
   public void remove(TWindow win) { rootContainer.remove(win); componentAtMouseValid = false; }
@@ -227,7 +227,7 @@ public class TransparentGUI extends TWindow {
     }
     componentAtMouseValid = true;
   }
-  
+
   public void pre() {
     checkComponentAtMouse();
     if (tt == -1) t = app.millis()/1000.f;  // set for the first time
@@ -235,7 +235,7 @@ public class TransparentGUI extends TWindow {
     t = app.millis()/1000.f;  // get this frame's time
     dt = t - tt;  // set delta
   }
-  
+
   public void draw() {
     app.g.pushStyle();
     // The synchronized block here allows applications to synchronize
@@ -249,9 +249,9 @@ public class TransparentGUI extends TWindow {
     }
     app.g.popStyle();
   }
-  
+
   public void showToolTip(TToolTip tt) { visibleToolTip = tt; }
-  
+
   protected boolean checkFragileWindows(float x, float y) {
     boolean b = false;
     for (int i = 0; i < rootContainer.getComponentCount(); i++)
@@ -261,7 +261,7 @@ public class TransparentGUI extends TWindow {
         rootContainer.remove(i--); b = true; }
     return b;
   }
-  
+
   public TComponent getFocusOwner() { return componentKeyFocus; }
   public TWindow getFocusedWindow() {
     TComponent w = getFocusOwner();
@@ -275,7 +275,7 @@ public class TransparentGUI extends TWindow {
       w = w.getParent();
     return (TWindow)w;
   }
-  
+
   public void requestFocus(TComponent comp) {
     if ((comp != null) && (!comp.isFocusable() || !comp.isShowing() || !comp.isEnabled())) return;
     if (componentKeyFocus == comp) return;
@@ -283,7 +283,7 @@ public class TransparentGUI extends TWindow {
     componentKeyFocus = comp;
     if (componentKeyFocus != null) componentKeyFocus.handleFocusGained();
   }
-  
+
   public void mouseEvent(MouseEvent e) {
     int id = e.getID();
     // general mouse handling
@@ -322,7 +322,7 @@ public class TransparentGUI extends TWindow {
       e.consume();  // make sure the event counts as consumed
     }
   }
-  
+
   public void keyEvent(KeyEvent e) {
     if (componentKeyFocus != null)  // give precedence to focused component
       componentKeyFocus.handleKeyEvent(e);
@@ -335,14 +335,14 @@ public class TransparentGUI extends TWindow {
     if (app.key == PApplet.ESC) app.key = 0;  // this makes sure PApplet.handleKeyEvent doesn't kill the application on VK_ESCAPE
     // FIXME: the above line could confuse key event handlers called after this one which read PApplet.key
   }
-  
+
   public void registerForKeyEvents(TComponent comp) { keyEventComponents.add(comp); }
   public void unregisterFromKeyEvents(TComponent comp) { keyEventComponents.remove(comp); }
-  
+
   public void size(int width, int height) {
     setBounds(0, 0, width, height);
     invalidateAll();
   }
-  
+
   public void dispose() {}
 }

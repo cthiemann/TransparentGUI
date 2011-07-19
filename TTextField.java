@@ -37,25 +37,25 @@ public class TTextField extends TComponent implements ClipboardOwner {
   protected int hotKeyCode = 0;
   protected int hotKeyMods = 0;
   protected PGraphics img = null;
-  
+
   public static final int ALIGN_LEFT = PApplet.LEFT;
   public static final int ALIGN_CENTER = PApplet.CENTER;
   public static final int ALIGN_RIGHT = PApplet.RIGHT;
   protected int align = ALIGN_LEFT;
-  
+
   public TTextField(TransparentGUI gui) { this(gui, null); }
   public TTextField(TransparentGUI gui, String cmd) {
     super(gui); clickable = true;
     gui.registerForKeyEvents(this);
     setActionCommand(cmd);
   }
-  
+
   public void setText(String s) { text = s; caretPos = s.length(); }
   public String getText() { return text; }
-  
+
   public void setEmptyText(String s) { strEmpty = s; }
   public String getEmptyText() { return strEmpty; }
-  
+
   public String getSelectedText() { return text.substring(PApplet.min(selectPos, caretPos), PApplet.max(selectPos, caretPos)); }
   public void clearSelection() { selectPos = -1; }
   public void setSelection(int i0, int i1) {
@@ -65,17 +65,17 @@ public class TTextField extends TComponent implements ClipboardOwner {
 
   public String getActionCommand() { return (command != null) ? command : "TTextField"; }
   public void setActionCommand(String s) { command = s; }
-  
+
   public boolean isFocusable() { return true; }
 
   public int getAlignment() { return align; }
   //public void setAlignment(int align) { this.align = align; }  // FIXME: draw() only handles ALIGN_LEFT correctly at the moment
-  
+
   public TComponent.Dimension getMinimumSize() {
     gui.app.g.textFont(getFont());
     return new TComponent.Dimension(200, gui.app.g.textAscent() + 1.5f*gui.app.g.textDescent());
   }
-  
+
   public void setHotKey(int c) { setHotKey(c, 0); }
   public void setHotKey(int c, int mods) {
     gui.unregisterFromKeyEvents(this);
@@ -83,7 +83,7 @@ public class TTextField extends TComponent implements ClipboardOwner {
     hotKeyMods = mods;
     if (c > 0) gui.registerForKeyEvents(this);
   }
-  
+
   public void handleKeyEvent(KeyEvent e) {
     super.handleKeyEvent(e);
     if (e.isConsumed()) return;
@@ -166,23 +166,23 @@ public class TTextField extends TComponent implements ClipboardOwner {
     if (e.getModifiers() != PApplet.MENU_SHORTCUT)
       e.consume();  // don't consume events with Ctrl/Cmd because they should still trigger other buttons
   }
-  
+
   public void deleteSelection() {
     int i0 = PApplet.min(selectPos, caretPos);
     int i1 = PApplet.max(selectPos, caretPos);
     text = text.substring(0, i0) + text.substring(i1);
     caretPos = i0; selectPos = -1;
   }
-  
+
   public void lostOwnership(Clipboard clipboard, Transferable contents) {}  // to implement ClipboardOwner
-  
+
   public void copySelectionToClipboard() {
     int i0 = PApplet.min(selectPos, caretPos);
     int i1 = PApplet.max(selectPos, caretPos);
     gui.app.getToolkit().getSystemClipboard().setContents(
       new java.awt.datatransfer.StringSelection(text.substring(i0, i1)), this);
   }
-  
+
   public void insertFromClipboard() {
     try {
       String clip = (String)gui.app.getToolkit().getSystemClipboard().getContents(this).getTransferData(DataFlavor.stringFlavor);
@@ -193,7 +193,7 @@ public class TTextField extends TComponent implements ClipboardOwner {
     } catch (UnsupportedFlavorException e) { /* ignore: if we can't get text, we don't want it anyway */ }
       catch (java.io.IOException e) { /* ignore: if it's no longer available, then that's just bad luck... */ }
   }
-  
+
   // TODO: handle mouse-based caret positioning and text selection
   public void handleMouseClicked() { if (!isFocusOwner()) gui.requestFocus(this); caretAlpha = 1; }
 

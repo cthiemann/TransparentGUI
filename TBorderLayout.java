@@ -29,12 +29,12 @@ public class TBorderLayout extends Object implements TLayoutManager {
   public static final String EAST = "East";
   public static final String WEST = "West";
   public static final String CENTER = "Center";
-  
+
   protected boolean stretchCenter = true;
-  
+
   public TBorderLayout() { this(true); }
   public TBorderLayout(boolean stretchCenter) { this.stretchCenter = stretchCenter; }
-  
+
   public TComponent.Dimension preferredLayoutSize(TContainer target) {
     float width = 0, height = 0, addwidth = 0, addheight = 0;
     // The width and height variables are there to track the width of all EAST/WEST components and the height
