@@ -81,9 +81,10 @@ public class TConsole extends TComponent {
       float lastProgress = progress; progress = p/pmax;
       TConsole.this.handleUpdateProgress(this, lastProgress);
       if (progress >= 1) finishProgress(); }
-    public void finishProgress() {
+    public void finishProgress() { finishProgress(null); }
+    public void finishProgress(String addText) {
       if (!hasActiveProgress()) return;
-      progress = 1; t1 = gui.app.millis(); text += " " + minsec(t1 - t0); setExitTime(t1);
+      progress = 1; t1 = gui.app.millis(); text += " " + ((addText != null) ? addText + ", " : "") + minsec(t1 - t0); setExitTime(t1);
       TConsole.this.handleFinishProgress(this); }
     public void abortProgress() {
       if (!hasActiveProgress()) return;
@@ -228,6 +229,7 @@ public class TConsole extends TComponent {
   public void updateProgress(float val) { if (msgprog != null) msgprog.updateProgress(val); }
   public void updateProgress(float val, float maxval) { if (msgprog != null) msgprog.updateProgress(val, maxval); }
   public void finishProgress() { if (msgprog != null) msgprog.finishProgress(); }
+  public void finishProgress(String addText) { if (msgprog != null) msgprog.finishProgress(addText); }
   public void abortProgress() { if (msgprog != null) msgprog.abortProgress(); }
   public Message abortProgress(Throwable e) { return abortProgress(prettyThrow(e, true)); }
   public Message abortProgress(String error, Throwable e) { return abortProgress(error + prettyThrow(e)); }
