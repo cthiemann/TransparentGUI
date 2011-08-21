@@ -18,7 +18,7 @@
  * along with TransparentGUI.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tGUI;
+package de.cthiemann.tGUI;
 import java.security.MessageDigest;
 import processing.core.PApplet;
 

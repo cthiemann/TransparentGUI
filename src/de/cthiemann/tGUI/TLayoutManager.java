@@ -18,24 +18,11 @@
  * along with TransparentGUI.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tGUI;
-import java.util.Vector;
+package de.cthiemann.tGUI;
 
-public class TButtonGroup extends Object {
-  protected TToggleButton selected = null;
-
-  public TButtonGroup() { this(null); }
-  public TButtonGroup(TToggleButton[] buttons) {
-    if (buttons != null)
-      for (int i = 0; i < buttons.length; i++)
-        buttons[i].setButtonGroup(this);
-  }
-
-  public TToggleButton getSelected() { return selected; }
-  public void setSelected(TToggleButton b) {
-    if ((selected == b) || (b.group != this)) return;
-    if (selected != null) selected.setSelected(false);
-    selected = b;
-    selected.setSelected(true);
-  }
+interface TLayoutManager {
+  public TComponent.Dimension preferredLayoutSize(TContainer target);
+  public TComponent.Dimension minimumLayoutSize(TContainer target);
+  public TComponent.Dimension maximumLayoutSize(TContainer target);
+  public void layoutContainer(TContainer target);
 }

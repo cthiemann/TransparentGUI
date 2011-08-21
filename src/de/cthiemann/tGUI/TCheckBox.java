@@ -18,7 +18,7 @@
  * along with TransparentGUI.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tGUI;
+package de.cthiemann.tGUI;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import java.awt.Color;

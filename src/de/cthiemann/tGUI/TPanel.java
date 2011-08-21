@@ -18,7 +18,7 @@
  * along with TransparentGUI.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tGUI;
+package de.cthiemann.tGUI;
 
 public class TPanel extends TContainer {
   public TPanel(TransparentGUI gui) { this(gui, new TFlowLayout()); }

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<project name="TransparentGUI" default="build">
+
+  <target name="help" description="Show this help text">
+    <java classname="org.apache.tools.ant.Main"><arg value="-projecthelp" /></java>
+  </target>
+
+  <target name="clean" description="Clear build directory">
+    <delete dir="build" />
+  </target>
+
+  <target name="compile" description="Compile all sources">
+	  <mkdir dir="build" />
+    <javac srcdir="src" destdir="build"
+           target="1.5" source="1.5" debug="true" encoding="UTF-8" includeantruntime="false">
+      <classpath><fileset dir="lib"><include name="**/*.jar" /></fileset></classpath>
+      <compilerarg value="-Xlint" />
+    </javac>
+  </target>
+
+  <target name="build" depends="compile" description="Build jar file">
+    <copy todir="build/de/cthiemann/tGUI"><fileset dir="." includes="resources" /></copy>
+    <jar destfile="tGUI.jar" basedir="build" />
+  </target>
+
+</project>

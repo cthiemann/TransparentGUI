@@ -18,7 +18,7 @@
  * along with TransparentGUI.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tGUI;
+package de.cthiemann.tGUI;
 import java.lang.reflect.Method;
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -92,7 +92,7 @@ public class TransparentGUI extends TWindow {
   public TransparentGUI(PApplet app) {
     this.gui = this;
     this.app = app;
-    this.prefs = Preferences.userRoot().node("/net/spato/tGUI/" + app.getClass().getName().replaceAll(".", "__"));
+    this.prefs = Preferences.userRoot().node("/net/spato/de/cthiemann/tGUI/" + app.getClass().getName().replaceAll(".", "__"));
     this.style = new Style(this);
     this.capturesMouse = false;
     app.mouseX = app.mouseY = -1;  // mouseX/mouseY are 0 at the beginning, which is unfortunate
@@ -190,11 +190,11 @@ public class TransparentGUI extends TWindow {
     // try to load font from TTF in tGUI resources folder
     try {
       font = new PFont(Font.createFont(Font.TRUETYPE_FONT,
-        this.getClass().getResourceAsStream("/tGUI/resources/" + name + ".ttf")).deriveFont(size), true);
+        this.getClass().getResourceAsStream("/de/cthiemann/tGUI/resources/" + name + ".ttf")).deriveFont(size), true);
     } catch (Exception e) { /* ignore silently */ }
     // if that fails or if we don't have the best font rendering capabilities, try loading from pre-rendered bitmap font file
     if (app.platform != PApplet.MACOSX) try {
-      font = new PFont(this.getClass().getResourceAsStream("/tGUI/resources/" + name + "-" + size + ".vlw"));
+      font = new PFont(this.getClass().getResourceAsStream("/de/cthiemann/tGUI/resources/" + name + "-" + size + ".vlw"));
     } catch (Exception e) { /* ignore silently */ }
     // return whatever we got (worst case, this is the default substitute font returned by createFont())
     return font;
