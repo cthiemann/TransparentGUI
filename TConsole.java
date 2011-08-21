@@ -301,9 +301,10 @@ public class TConsole extends TComponent {
     String text = msg.text;
     float progbarWidth = msg.hasActiveProgress() ? progbarwidth : 0;  // stupid var names...
     float progbarSpace = msg.hasActiveProgress() ? g.textWidth(" ") : 0;
-    while (g.textWidth(text) > bounds.width - padding.left - padding.right) {
+    while ((g.textWidth(text) > bounds.width - padding.left - padding.right) && (text.length() >= 2)) {
       text = text.substring(0, text.length()-2) + "\u2026";  // shorten and add ellipsis
-      if (msg.hasActiveProgress()) { progbarWidth = 50; progbarSpace = 0; } }  // cut down on the progbar
+      if (msg.hasActiveProgress()) { progbarWidth = 50; progbarSpace = 0; }  // cut down on the progbar
+    }
     float textX = (align == ALIGN_LEFT)   ? x :
                   (align == ALIGN_CENTER) ? x - (progbarWidth + progbarSpace)/2 :
                                             x - (progbarWidth + progbarSpace);
