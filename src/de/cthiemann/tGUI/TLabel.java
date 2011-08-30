@@ -55,7 +55,7 @@ public class TLabel extends TComponent {
       maxWidth = PApplet.max(maxWidth, gui.app.g.textWidth(lines[i]));
     float height = gui.app.g.textAscent() + gui.app.g.textDescent();
     height = height + (lines.length - 1)*gui.app.g.textLeading;
-    return new TComponent.Dimension(maxWidth, height);
+    return new TComponent.Dimension(maxWidth, PApplet.ceil(height));
   }
 
   public void draw(PGraphics g) {

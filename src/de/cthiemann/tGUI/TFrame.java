@@ -31,9 +31,19 @@ public class TFrame extends TWindow {
   public TFrame(TransparentGUI gui, String title) { this(gui, title, new TBorderLayout()); }
   public TFrame(TransparentGUI gui, String title, TLayoutManager layout) {
     super(gui, new TBorderLayout()); setMovable(true);
-    super.add(lblTitle = new TLabel(gui), TBorderLayout.NORTH, -1);
-    super.add(contentPane = new TPanel(gui, layout), TBorderLayout.CENTER, -1);
-    lblTitle.capturesMouse = contentPane.capturesMouse = false;
+    lblTitle = new TLabel(gui);
+    lblTitle.setMargin(0);
+    lblTitle.setPadding(2);
+    lblTitle.setAlignment(TLabel.ALIGN_CENTER);
+    lblTitle.setBackgroundColor(new Color(225, 225, 225, 225));  // FIXME: should be a style option
+    lblTitle.setBorderRadius(getBorderRadiusTopLeft(), getBorderRadiusTopRight(), 0, 0);
+    lblTitle.capturesMouse = false;
+    super.add(lblTitle, TBorderLayout.NORTH, -1);
+    contentPane = contentPane = new TPanel(gui, layout);
+    contentPane.setMargin(0);
+    contentPane.setPadding(10);
+    contentPane.capturesMouse = false;
+    super.add(contentPane, TBorderLayout.CENTER, -1);
     setFocusable(true);
     setTitle(title);
   }
@@ -56,15 +66,4 @@ public class TFrame extends TWindow {
       requestFocus();
   }
 
-  public void validate() {
-    if (valid) return;
-    lblTitle.setMargin(0);
-    lblTitle.setPadding(2);
-    lblTitle.setAlignment(TLabel.ALIGN_CENTER);
-    lblTitle.setBackgroundColor(new Color(225, 225, 225, 225));  // FIXME: should be a style option
-    lblTitle.setBorderRadius(getBorderRadiusTopLeft(), getBorderRadiusTopRight(), 0, 0);
-    contentPane.setMargin(0);
-    contentPane.setPadding(10);
-    super.validate();
-  }
 }
